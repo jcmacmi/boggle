@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,7 +18,7 @@ import java.util.regex.Pattern;
  
 public class WordList {
 
-  static String dictionary = "/usr/share/dict/words";
+  static String dictionary = "file/words";
 
   public static List<String> retrieve( int minWordLength ){
 
@@ -34,7 +35,9 @@ public class WordList {
 
     List<String> list = new ArrayList<>();
 
-    try (BufferedReader br = Files.newBufferedReader(Paths.get(d))) {
+    ClassLoader classLoader = WordList.class.getClassLoader();
+
+    try (BufferedReader br = new BufferedReader(new InputStreamReader( classLoader.getResourceAsStream(d) ))) {
       //br returns as stream and convert it into a List
       list = br.lines().filter(filterCriteria).map(mapWords).collect(Collectors.toList());
 
