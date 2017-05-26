@@ -30,11 +30,11 @@ public class BoggleGrid {
    Arrays.sort(_boggleLetters);
   }
 
-  public static char[][] generateRandomBoggle() {
+  public static char[][] generateRandomBoggle(int seed) {
      String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
      int alphabetLength = alphabet.length();
 
-     Random random = new Random(50);
+     Random random = new Random(seed);
 
      char boggleGrid[][] = new char[GL][GL];
 
@@ -77,6 +77,7 @@ public class BoggleGrid {
   }
 
   public boolean find( String word ) {
+
     for ( int i = 0 ; i < GL; i++ ) {
       for (int j = 0 ; j < GL; j++ ) {
         boolean[][] location = new boolean[GL][GL];
@@ -86,7 +87,6 @@ public class BoggleGrid {
     return false;
   }
   
-  // Need to fix that it takes accout of the fact QU occurs on the same tile
   // The change for location check slows this down by a lot, it might be worth
   // doing two passes, without then with the location check.
   private boolean matchCell( int i, int j, String word, int position, boolean location[][] ) {

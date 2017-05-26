@@ -24,7 +24,7 @@ public class BoggleSolver {
      System.out.println("WordList : 10 : " + list.get(100) );
      System.out.println("WordList : 1000 : " + list.get(1000) );
 
-     char boggleGrid[][] = BoggleGrid.generateRandomBoggle();
+     char boggleGrid[][] = BoggleGrid.generateRandomBoggle( 50 );
      boggleGrid[0][2] = 'Q';
      BoggleGrid.renderBoggle( boggleGrid );
      

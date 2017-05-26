@@ -13,5 +13,6 @@ public class BoggleGridTest {
      BoggleGrid bg = new  BoggleGrid( grid );
      assert( true == bg.find( "ZYXWVPQUMRNSTOJIHGFABCDE" ) );
      assert( false == bg.find( "ZYXWVPQMRNSTOJIHGFABCDE" ) );
+     assert( true == bg.find( "MNIHGLQURSTZYXWVPKFABCDE" ) );
   }
 }
