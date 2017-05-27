@@ -27,6 +27,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+run {
+  args = [ '-generate' ]
+}
+
 // Define the main class for the application
 mainClassName = 'BoggleSolver'
 

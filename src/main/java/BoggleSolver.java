@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import java.util.stream.Collectors;
 
-
 public class BoggleSolver {
 
   static final int GridLength = 5;
@@ -18,23 +17,34 @@ public class BoggleSolver {
   //static int[][] LenghtToPoints = new [][] { {3,1}, {4,1}, {5,2}, {6,3} {7,5}, {8,11} };  
 
   public static void main( String[] args ){
+    
+    int i = 0, j;
+    String arg;
+    char flag;
+    boolean vflag = false;
+    String outputfile = "";
+
+    char boggleGrid[][];
+
+    while( i < args.length && args[i].startsWith("-")) {
+     arg = args[i++];
+    
+     if (arg.equals("-generate")) {
+       boggleGrid = BoggleGrid.generateRandomBoggle( 50 );
+       BoggleGrid.renderBoggle( boggleGrid );
+     }
+
+    }
+
      List<String> list = WordList.retrieve( MinWordLength );
 
-     System.out.println("WordList : 0 : " + list.get(0) );
-     System.out.println("WordList : 10 : " + list.get(100) );
-     System.out.println("WordList : 1000 : " + list.get(1000) );
-
+     /*
      char boggleGrid[][] = BoggleGrid.generateRandomBoggle( 50 );
      boggleGrid[0][2] = 'Q';
      BoggleGrid.renderBoggle( boggleGrid );
-     
+   
      BoggleGrid bg = new BoggleGrid( boggleGrid );
 
-     //if ( bg.search("TAPXI") ) { System.out.println("Found it!"); }
-     //if ( bg.find("GAX") ) { System.out.println("Found it 1!"); }
-     if ( bg.find("CERHNVU") ) { System.out.println("Found it 2!"); }
-     //if ( bg.find("C") ) { System.out.println("Found it 2!"); }
-     
      long startTime = System.nanoTime();
      List<String> wordsInGrid = list.stream().filter( w -> bg.search(w) ).collect(Collectors.toList());
      long endTime = System.nanoTime();
@@ -64,6 +74,6 @@ public class BoggleSolver {
 
      exactWordsInGrid.forEach( word->System.out.println( word ) );
 
-   
+     */
   }
 }
