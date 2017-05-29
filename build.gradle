@@ -25,10 +25,13 @@ dependencies {
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
+
+    //compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
 }
 
 run {
-  args = [ '-generate' ]
+  args = [ '--generate' ]
+  standardOutput = new File(project.buildDir, 'my_random_grid').newOutputStream()
 }
 
 // Define the main class for the application

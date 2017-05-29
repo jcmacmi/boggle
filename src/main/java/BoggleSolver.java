@@ -1,9 +1,6 @@
 import java.util.Random;
-
 import java.util.List;
-
 import java.util.HashMap;
-
 import java.util.stream.Collectors;
 
 public class BoggleSolver {
@@ -29,11 +26,16 @@ public class BoggleSolver {
     while( i < args.length && args[i].startsWith("-")) {
      arg = args[i++];
     
-     if (arg.equals("-generate")) {
+     if (arg.equals("--generate")) {
        boggleGrid = BoggleGrid.generateRandomBoggle( 50 );
        BoggleGrid.renderBoggle( boggleGrid );
      }
-
+     else if (arg.equals("--file")) {
+       if (i < args.length)
+          outputfile = args[i++];
+       else
+          System.err.println("--file requires a filename");
+     }
     }
 
      List<String> list = WordList.retrieve( MinWordLength );
