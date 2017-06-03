@@ -27,11 +27,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     //compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    //'net.sf.jopt-simple:jopt-simple:4.5'
+    //compile group: 'net.sf.jopt-simple', name: 'jopt-simple', version '4.5'
 }
 
 run {
-  args = [ '--generate' ]
-  standardOutput = new File(project.buildDir, 'my_random_grid').newOutputStream()
+  args = [ project.buildDir.getCanonicalPath() + "/random_grid.in" ]
+
+  standardOutput = new File(project.buildDir, 'random_grid.out').newOutputStream()
 }
 
 // Define the main class for the application

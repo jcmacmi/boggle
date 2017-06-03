@@ -26,9 +26,22 @@ public class BoggleGrid {
        _boggleLetters[i+5*j] = bg[i][j];
      }
    }
-
    Arrays.sort(_boggleLetters);
   }
+
+  public BoggleGrid( List<String> lines ) {
+    _boggleGrid = new char[GL][GL];
+    _boggleLetters = new char[ GL * GL];
+
+    for( int i=0; i< GL; i++ ) {
+      for( int j=0; j<GL; j++ ) {
+        _boggleGrid[i][j] = lines.get(i).charAt(j);
+        _boggleLetters[i+5*j] = lines.get(i).charAt(j);
+      }
+    }
+    Arrays.sort(_boggleLetters);
+   }
+
 
   public static char[][] generateRandomBoggle(int seed) {
      String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

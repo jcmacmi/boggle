@@ -2,6 +2,10 @@ import java.util.Random;
 import java.util.List;
 import java.util.HashMap;
 import java.util.stream.Collectors;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.util.stream.Stream;
 
 public class BoggleSolver {
 
@@ -9,73 +13,80 @@ public class BoggleSolver {
   static final int GL = GridLength;
   static final int MinWordLength = 3;
  
-
-  // Want to make this work, 8+ = 11 points.
-  //static int[][] LenghtToPoints = new [][] { {3,1}, {4,1}, {5,2}, {6,3} {7,5}, {8,11} };  
-
   public static void main( String[] args ){
     
     int i = 0, j;
-    String arg;
-    char flag;
-    boolean vflag = false;
-    String outputfile = "";
 
     char boggleGrid[][];
+    BoggleGrid bg;
 
-    while( i < args.length && args[i].startsWith("-")) {
-     arg = args[i++];
-    
-     if (arg.equals("--generate")) {
+    if ( args.length == 0 ) {
+       System.err.println("No arguments supplied, generating grid...");
        boggleGrid = BoggleGrid.generateRandomBoggle( 50 );
        BoggleGrid.renderBoggle( boggleGrid );
-     }
-     else if (arg.equals("--file")) {
-       if (i < args.length)
-          outputfile = args[i++];
-       else
-          System.err.println("--file requires a filename");
-     }
+       bg = new BoggleGrid( boggleGrid );
+    }
+    else {
+       System.err.println("Treating first argument as a file...");
+       try {
+         List<String> lines = Files.readAllLines(Paths.get( args[0] ) );
+         bg = new BoggleGrid( lines );
+       }
+       catch (IOException e) {
+        System.err.println("Failed to read file : " + args[0] );
+        return;
+       } 
     }
 
-     List<String> list = WordList.retrieve( MinWordLength );
+    List<String> list = WordList.retrieve( MinWordLength );
+    List<String> result = solveGrid( list, bg );
 
-     /*
-     char boggleGrid[][] = BoggleGrid.generateRandomBoggle( 50 );
-     boggleGrid[0][2] = 'Q';
-     BoggleGrid.renderBoggle( boggleGrid );
-   
-     BoggleGrid bg = new BoggleGrid( boggleGrid );
+    result.forEach( w->System.err.println( w ) );
+    Integer count = result.stream().mapToInt(BoggleSolver::scoreWord).sum();
+    System.err.format( "Total score isi %d\n", count );
+  }
 
-     long startTime = System.nanoTime();
-     List<String> wordsInGrid = list.stream().filter( w -> bg.search(w) ).collect(Collectors.toList());
-     long endTime = System.nanoTime();
+  public static List<String> solveGrid( List<String> list, BoggleGrid bg  ){
 
-     System.out.println("It took: " + (endTime-startTime)/1000000);
+    long startTime = System.nanoTime();
+    List<String> wordsInGrid = list.stream().filter( w -> bg.search(w) ).collect(Collectors.toList());
+    long endTime = System.nanoTime();
+
+    //System.err.println("It took: " + (endTime-startTime)/1000000);
      
-     startTime = System.nanoTime();
-     List<String> exactWordsInGrid = list.stream().filter( w -> bg.find(w) ).collect(Collectors.toList());
-     endTime = System.nanoTime();
+    startTime = System.nanoTime();
+    List<String> exactWordsInGrid = list.stream().filter( w -> bg.find(w) ).collect(Collectors.toList());
+    endTime = System.nanoTime();
 
-     System.out.println("It took: " + (endTime-startTime)/1000000);
+    //System.err.println("It took: " + (endTime-startTime)/1000000);
 
-     startTime = System.nanoTime();
-     List<String> exactWordsInGrid2 = wordsInGrid.stream().filter( w -> bg.find(w) ).collect(Collectors.toList());
-     endTime = System.nanoTime();
+    startTime = System.nanoTime();
+    List<String> exactWordsInGrid2 = wordsInGrid.stream().filter( w -> bg.find(w) ).collect(Collectors.toList());
+    endTime = System.nanoTime();
 
-     System.out.println("It took: " + (endTime-startTime)/1000000);
+    //System.err.println("It took: " + (endTime-startTime)/1000000);
 
-     System.out.println("wordsInGrid : 0 : " + wordsInGrid.get(0) );
-     System.out.println("wordsInGrid : 1 : " + wordsInGrid.get(1) );
-     System.out.println("wordsInGrid : 2 : " + wordsInGrid.get(2) );
+    //System.err.println("Size of orignal WordList : " + list.size() );
+    //System.err.println("Size of wordsInGrid : " + wordsInGrid.size() );
 
-     System.out.println("Size of orignal WordList : " + list.size() );
-     System.out.println("Size of wordsInGrid : " + wordsInGrid.size() );
-     System.out.println("Size of exactWordsInGrid: " + exactWordsInGrid.size() );
-     System.out.println("Size of exactWordsInGrid2: " + exactWordsInGrid2.size() );
+    //System.err.println("Size of exactWordsInGrid: " + exactWordsInGrid.size() );
+    //System.err.println("Size of exactWordsInGrid2: " + exactWordsInGrid2.size() );
 
-     exactWordsInGrid.forEach( word->System.out.println( word ) );
+    return exactWordsInGrid;
+  }
 
-     */
+  public static Integer scoreWord(String w) {
+    switch ( w.length() ) {
+      case 0: return 0;
+      case 1: return 0;
+      case 2: return 0;
+      case 3: return 1;
+      case 4: return 1;
+      case 5: return 2;
+      case 6: return 3;
+      case 7: return 5;
+      case 8: return 11;
+    }
+    return 11;
   }
 }
