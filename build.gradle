@@ -31,6 +31,12 @@ dependencies {
     //compile group: 'net.sf.jopt-simple', name: 'jopt-simple', version '4.5'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'boggle.BoggleSolver'
+    }
+}
+
 run {
   args = [ project.buildDir.getCanonicalPath() + "/random_grid.in" ]
 
@@ -38,5 +44,5 @@ run {
 }
 
 // Define the main class for the application
-mainClassName = 'BoggleSolver'
+mainClassName = 'boggle.BoggleSolver'
 

@@ -1,3 +1,5 @@
+package boggle;
+
 import java.util.Random;
 import java.util.List;
 import java.util.HashMap;
@@ -43,7 +45,7 @@ public class BoggleSolver {
 
     result.forEach( w->System.err.println( w ) );
     Integer count = result.stream().mapToInt(BoggleSolver::scoreWord).sum();
-    System.err.format( "Total score isi %d\n", count );
+    System.err.format( "Total score is %d\n", count );
   }
 
   public static List<String> solveGrid( List<String> list, BoggleGrid bg  ){
